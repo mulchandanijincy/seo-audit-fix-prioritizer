@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Website SEO Audit &amp; Fix Prioritizer</title>
+<style>
+:root{--navy:#172554;--tint:#eef2ff;--line:#e2e8f0;--ink:#172033;--mute:#64748b;--accent:#6366f1}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6fb;color:var(--ink);font:15px/1.6 "Segoe UI",Arial,sans-serif}
+nav{position:fixed;left:0;top:0;bottom:0;width:238px;background:linear-gradient(180deg,#172554,#263b78);color:#fff;display:flex;flex-direction:column;align-items:stretch;gap:26px;padding:26px 16px;box-shadow:5px 0 24px #17255418;z-index:5}
+nav h1{font:700 19px/1.35 "Segoe UI",Arial,sans-serif;margin:0;padding:8px 10px 22px;border-bottom:1px solid #ffffff25}
+nav .tabs{display:flex;flex-direction:column;gap:8px}
+nav .tabs button{width:100%;text-align:left;background:transparent;color:#c7d2fe;border:0;border-radius:9px;padding:12px 14px;font:600 14px "Segoe UI",Arial,sans-serif;cursor:pointer;transition:.2s}
+nav .tabs button:hover{background:#ffffff12;color:white}
+nav .tabs button.on{background:#ffffff20;color:#fff;box-shadow:inset 3px 0 #a5b4fc}
+main{max-width:1100px;margin:0 auto 0 238px;padding:42px clamp(20px,4vw,56px)}
+main:before{content:"SEO WORKSPACE  /  SITE AUDIT";display:block;font-size:11px;font-weight:700;letter-spacing:2px;color:#818cf8;margin-bottom:10px}
+h2{font-size:21px;line-height:1.3;color:#1e2b58;margin:0 0 16px}
+.panel{display:none}.panel.on{display:block}
+#setup .box{padding:30px;background:linear-gradient(120deg,#fff 65%,#eef2ff);border-top:4px solid var(--accent)}
+.box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 8px 28px #1829570a}
+input[type=text]{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:13px 14px;font:inherit;margin:4px 0 16px;background:#fbfcff;outline:none}
+input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px #6366f11c}
+button.b{background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:9px;padding:11px 17px;font:600 14px "Segoe UI",Arial,sans-serif;cursor:pointer;margin:0 8px 8px 0;transition:transform .15s,background .15s}
+button.b:hover:not(:disabled){background:#4f46e5;transform:translateY(-1px)}
+#demo{background:#fff;color:#4338ca;border-color:#c7d2fe}#demo:hover:not(:disabled){background:#eef2ff}
+button:disabled{opacity:.5;cursor:not-allowed}
+label{display:flex;gap:9px;align-items:flex-start;margin-bottom:18px;font-size:14px;color:#475569}label input{margin-top:5px;accent-color:var(--accent)}
+.note{font-size:13px;color:var(--mute)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 5px 18px #18295708}
+.kpi b{display:block;font-size:30px;line-height:1.2;color:var(--accent);margin-bottom:5px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{background:#fff;color:#475569;border:1px solid var(--line);border-radius:20px;padding:7px 14px;font:600 13px "Segoe UI",Arial,sans-serif;cursor:pointer}
+.chip.on{background:#e0e7ff;color:#3730a3;border-color:#c7d2fe}
+.row{border-top:1px solid var(--line);padding:18px 0;display:grid;grid-template-columns:100px minmax(0,1fr);gap:14px}
+.row:first-child{border-top:0}.row p{color:#475569;margin:8px 0}
+.sev{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#4338ca;background:#eef2ff;border-radius:7px;padding:5px 9px;height:fit-content;text-align:center}
+.row:has(.sev){border-radius:0}
+.row:has(.sev:first-child){ }
+.ev{font:12.5px ui-monospace,monospace;background:#f8fafc;border:1px solid #e2e8f0;border-radius:7px;padding:9px 10px;margin:7px 0;word-break:break-word;color:#475569}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#6366f1;font-weight:800;margin-top:9px}
+.err{background:#fff1f2;color:#9f1239;border-left:4px solid #e11d48;padding:12px 14px;border-radius:8px;margin-top:12px}
+@media(max-width:760px){nav{position:relative;width:100%;height:auto;gap:12px;padding:16px}nav h1{padding:4px 6px 12px}nav .tabs{flex-direction:row;flex-wrap:wrap}nav .tabs button{width:auto;padding:9px 11px}main{margin:0;padding:24px 14px}main:before{font-size:10px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.row{grid-template-columns:1fr}.box,#setup .box{padding:18px}}
+@media print{nav,button,.noprint{display:none!important}main{margin:0;padding:0}main:before{display:none}.panel{display:block!important}.box,.kpi{box-shadow:none}}
+</style>
+</head>
+<body>
+<nav>
+<h1>SEO Audit &amp; Fix Prioritizer</h1>
+<div class="tabs" id="tabs">
+<button data-t="setup" class="on">Setup</button><button data-t="fixes">Priority fixes</button><button data-t="issues">All issues</button><button data-t="summary">Summary</button>
+</div>
+</nav>
+<main>
+<div class="panel on" id="setup">
+<div class="box">
+<h2>Site to audit</h2>
+<input type="text" id="url" placeholder="https://example.com">
+<label><input type="checkbox" id="ok"> I own this website or have permission to audit it. The crawler follows robots.txt and checks up to 8 pages.</label>
+<button class="b" id="go">Run audit</button><button class="b" id="demo">Load demo report</button>
+<div id="msg"></div>
+</div>
+<p class="note">The demo report uses illustrative sample data, not a real crawl. A live audit needs the deployed backend.</p>
+</div>
+<div class="panel" id="fixes"><div class="box note">Run an audit or load the demo report.</div></div>
+<div class="panel" id="issues"><div class="box note">No results yet.</div></div>
+<div class="panel" id="summary"><div class="box note">No results yet.</div></div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const SEV=["Critical","High","Medium","Low"];
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let report=null,filter="All";
+function tab(t){document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id===t));document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===t))}
+$("tabs").onclick=e=>{if(e.target.dataset.t)tab(e.target.dataset.t)};
+$("go").onclick=async()=>{
+  $("go").disabled=true;$("go").textContent="Crawling and analysing…";$("msg").innerHTML="";
+  try{
+    const r=await fetch("/api/audit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url:$("url").value.trim(),consent:$("ok").checked})});
+    const d=await r.json();if(!r.ok)throw new Error(d.error||"Audit failed");
+    load(d);
+  }catch(e){$("msg").innerHTML=`<div class="err">${esc(e.message)}</div>`}
+  $("go").disabled=false;$("go").textContent="Run audit";
+};
+$("demo").onclick=()=>load({demo:true,site:"https://demo-bakery.example",crawled:6,date:"2026-10-28",skippedByRobots:true,
+issues:[
+{sev:"Critical",rule:"Page blocked from indexing",page:"https://demo-bakery.example/menu",evidence:'meta robots = "noindex, follow"',fix:"Remove noindex if this page should appear in search."},
+{sev:"High",rule:"Missing meta description",page:"https://demo-bakery.example/",evidence:"No meta description found",fix:"Add a 70–155 character summary of the page."},
+{sev:"High",rule:"Missing meta description",page:"https://demo-bakery.example/about",evidence:"No meta description found",fix:"Add a 70–155 character summary of the page."},
+{sev:"High",rule:"Missing H1",page:"https://demo-bakery.example/contact",evidence:"No <h1> found",fix:"Add one H1 that states the page topic."},
+{sev:"Medium",rule:"Title too long",page:"https://demo-bakery.example/menu",evidence:'74 characters: "Menu | Fresh Bread, Pastries, Cakes and Custom Orders in Demo City | Demo Bakery"',fix:"Shorten to 60 characters or fewer."},
+{sev:"Medium",rule:"Images without alt text",page:"https://demo-bakery.example/",evidence:"5 of 9 images have no alt attribute",fix:"Add short descriptive alt text to each meaningful image."},
+{sev:"Medium",rule:"Missing canonical tag",page:"https://demo-bakery.example/about",evidence:"No rel=canonical link",fix:"Add a canonical link pointing to the preferred URL."},
+{sev:"Low",rule:"Missing Open Graph tags",page:"https://demo-bakery.example/",evidence:"No og:title",fix:"Add og:title, og:description and og:image."}],
+ai:{summary:"One page is hidden from search by a noindex tag, which outweighs every other finding. Missing descriptions and an H1 gap come next, and most remaining items are quick edits.",
+priority:[
+{rank:1,rule:"Page blocked from indexing",pages:["/menu"],why:"A noindex tag keeps the menu page out of search results entirely.",effort:"Low",correction:"Remove noindex from the meta robots tag on /menu, then request reindexing."},
+{rank:2,rule:"Missing meta description",pages:["/","/about"],why:"Search engines will write their own snippet, which often reads poorly and lowers clicks.",effort:"Low",correction:"Add a unique 70–155 character description to each page, based on what the page offers."},
+{rank:3,rule:"Missing H1",pages:["/contact"],why:"Without an H1 the page topic is less clear to search engines and assistive tools.",effort:"Low",correction:"Add one H1 such as “Contact Demo Bakery”."},
+{rank:4,rule:"Title too long",pages:["/menu"],why:"Titles over about 60 characters are often cut off in results.",effort:"Low",correction:"Shorten to “Menu | Fresh Bread & Pastries | Demo Bakery” (under 60 characters)."},
+{rank:5,rule:"Images without alt text",pages:["/"],why:"Missing alt text hurts accessibility and image search.",effort:"Medium",correction:"Describe each meaningful image in a few words and leave decorative images with empty alt."}]}});
+function load(d){report=d;filter="All";render();tab("fixes")}
+function render(){
+  const d=report,by=Object.fromEntries(SEV.map(s=>[s,d.issues.filter(i=>i.sev===s)]));
+  $("fixes").innerHTML=`<div class="box"><h2>Prioritised fix list</h2>${d.ai&&d.ai.priority?d.ai.priority.map(p=>`<div class="row"><span class="sev">#${p.rank}</span><div><b>${esc(p.rule)}</b> <span class="note">· effort: ${esc(p.effort)} · ${(p.pages||[]).map(esc).join(", ")}</span><p>${esc(p.why)}</p><div class="lbl">Suggested correction</div><div>${esc(p.correction)}</div></div></div>`).join(""):`<p class="note">AI prioritisation was unavailable, so issues are ordered by severity in the All issues tab.</p>`}</div>`;
+  const list=d.issues.filter(i=>filter==="All"||i.sev===filter);
+  $("issues").innerHTML=`<div class="box"><h2>All issues</h2><div class="chips">${["All",...SEV].map(s=>`<button class="chip ${s===filter?"on":""}" onclick="filter='${s}';render()">${s}${s==="All"?"":" ("+by[s].length+")"}</button>`).join("")}</div>
+  ${list.map(i=>`<div class="row"><span class="sev">${i.sev}</span><div><b>${esc(i.rule)}</b><div class="note">${esc(i.page)}</div><div class="lbl">Evidence</div><div class="ev">${esc(i.evidence)}</div><div class="lbl">Fix</div><div>${esc(i.fix)}</div></div></div>`).join("")||'<p class="note">No issues.</p>'}</div>`;
+  $("summary").innerHTML=`<div class="kpis">${SEV.map(s=>`<div class="kpi"><b>${by[s].length}</b>${s}</div>`).join("")}</div>
+  <div class="box"><h2>${esc(d.site)}</h2><div class="note">${d.date} · ${d.crawled} pages crawled${d.skippedByRobots?" · robots.txt rules respected":""}${d.demo?" · DEMO DATA":""}</div>
+  <p>${d.ai?esc(d.ai.summary):"AI summary unavailable."}</p>
+  <button class="b noprint" onclick="window.print()">Print / save as PDF</button><button class="b noprint" onclick="dl()">Download JSON</button></div>`;
+}
+function dl(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:"application/json"}));a.download="seo-audit-"+report.date+".json";a.click()}
+</script>
+</body>
+</html>
